@@ -63,14 +63,35 @@ a:hover { text-decoration: underline; }
 		'title':  '微信分身版+人人分身版',
 		'img_url': 'http://appshare.wsfff.com/res/com/tencent/Icon.png'
 	};
-if(typeof(WeixinJSBridge)!='undefined'){WeixinJSBridge.call('hideToolbar');WeixinJSBridge.call('hideOptionMenu');}
-
-window.onload = function(){
+window.onload=function(){ 
+    // 微信发送
     document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+        WeixinJSBridge.call('hideToolbar');
         WeixinJSBridge.on('menu:share:timeline', function(){ WeixinJSBridge.invoke('shareTimeline', window.Share); }); // 分享朋友圈
         WeixinJSBridge.on('menu:share:appmessage', function(){ WeixinJSBridge.invoke('sendAppMessage', window.Share); });// 发送给好友
     })
+    
+    
+    
 }
+function onBridgeReady() {
+        WeixinJSBridge.call('hideToolbar');
+        //WeixinJSBridge.call('hideOptionMenu');
+        WeixinJSBridge.on('menu:share:timeline', function(){ WeixinJSBridge.invoke('shareTimeline', window.Share); }); // 分享朋友圈
+        WeixinJSBridge.on('menu:share:appmessage', function(){ WeixinJSBridge.invoke('sendAppMessage', window.Share); });// 发送给好友
+}
+
+        if (typeof WeixinJSBridge == "undefined"){
+            if( document.addEventListener ){
+                document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+            }else if (document.attachEvent){
+                document.attachEvent('WeixinJSBridgeReady', onBridgeReady); 
+                document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
+            }
+        }else{
+            onBridgeReady();
+        }
+
 </script>
 </body>
 </html>
